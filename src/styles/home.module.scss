@@ -1,0 +1,24 @@
+.landing-section {
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  h1 {
+    font-weight: bold;
+    font-size: 28px;
+    text-align: left;
+
+    span {
+      color: #e41944;
+      display: block;
+    }
+  }
+}
+
+.projects-container {
+  .inner {
+    display: flex;
+  }
+}

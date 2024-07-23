@@ -1,3 +1,5 @@
+import TestimonialCard from '@/components/TestimonialCard'
+import { db, testimonials as testimonialsTable } from '@/lib/drizzle/schema'
 import clsx from 'clsx'
 
 const featuredTestimonial = {
@@ -10,7 +12,7 @@ const featuredTestimonial = {
     logoUrl: 'https://tailwindui.com/img/logos/savvycal-logo-gray-900.svg',
   },
 }
-const testimonials = [
+/* const testimonials = [
   [
     [
       {
@@ -81,9 +83,16 @@ const testimonials = [
       // More testimonials...
     ],
   ],
-]
+] */
 
-export default function Testimonials() {
+const getTestimonials = async () => {
+  const testimonials = await db.select().from(testimonialsTable)
+
+  return [[testimonials]]
+}
+
+export default async function Testimonials() {
+  const testimonials = await getTestimonials()
   return (
     <div className="relative isolate pb-32 pt-24 sm:pt-32">
       <div
@@ -162,27 +171,16 @@ export default function Testimonials() {
                   )}
                 >
                   {column.map((testimonial) => (
-                    <figure
-                      key={testimonial.author.handle}
-                      className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5"
-                    >
-                      <blockquote className="text-gray-900">
-                        <p>{`“${testimonial.body}”`}</p>
-                      </blockquote>
-                      <figcaption className="mt-6 flex items-center gap-x-4">
-                        <img
-                          alt=""
-                          src={testimonial.author.imageUrl}
-                          className="h-10 w-10 rounded-full bg-gray-50"
-                        />
-                        <div>
-                          <div className="font-semibold">
-                            {testimonial.author.name}
-                          </div>
-                          <div className="text-gray-600">{`@${testimonial.author.handle}`}</div>
-                        </div>
-                      </figcaption>
-                    </figure>
+                    <TestimonialCard
+                      key={testimonial.id}
+                      name={`${testimonial.firstName} ${testimonial.lastName}`}
+                      company={testimonial.company}
+                      handle=""
+                      testimonial={testimonial.testimonial}
+                      imageUrl={testimonial.image}
+                      jobTitle={testimonial.jobTitle}
+                      socialUrl={testimonial.socialURL}
+                    />
                   ))}
                 </div>
               ))}

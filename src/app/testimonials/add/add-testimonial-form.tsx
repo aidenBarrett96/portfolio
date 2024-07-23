@@ -52,7 +52,7 @@ export function AddTestimonialForm() {
 
   if (isSubmitSuccessful) {
     return (
-      <div className="relative z-10 h-full px-6 pb-24 pt-20 sm:pb-32 lg:px-8 lg:py-48">
+      <div className="relative z-10 h-full px-6 pb-24 pt-20 sm:pb-32 lg:px-8">
         <p className="text-lg text-white">
           Thank you for your testimonial! Check back in soon to see it live 👋{' '}
         </p>
@@ -65,7 +65,7 @@ export function AddTestimonialForm() {
       action="#"
       onSubmit={handleSubmit(onSubmit)}
       method="POST"
-      className="relative z-10 px-6 pb-24 pt-20 sm:pb-32 lg:px-8 lg:py-48"
+      className="relative z-10 px-6 sm:pb-32 lg:px-8 lg:py-48"
     >
       {isSubmitting && (
         <div

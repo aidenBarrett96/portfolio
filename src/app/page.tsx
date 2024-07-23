@@ -17,6 +17,7 @@ import golfImage from '@/images/photos/golf.jpg'
 import footballImage from '@/images/photos/football.jpg'
 import { type ArticleWithSlug, getAllArticles } from '@/lib/articles'
 import { formatDate } from '@/lib/formatDate'
+import Testimonials from '@/components/Testimonials'
 
 function MailIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -313,6 +314,9 @@ export default async function Home() {
             <Resume />
           </div>
         </div>
+      </Container>
+      <Container className="mt-24 md:mt-28">
+        <Testimonials />
       </Container>
     </>
   )

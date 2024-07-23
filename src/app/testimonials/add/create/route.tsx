@@ -70,10 +70,10 @@ export async function POST(request: Request) {
       } as any)
       .returning()
 
-    console.log('result =>', dbResult)
+    return new Response('ok')
   } catch (error) {
     console.log(error)
-  }
 
-  return new Response('ok')
+    return new Response('error', { status: 500 })
+  }
 }

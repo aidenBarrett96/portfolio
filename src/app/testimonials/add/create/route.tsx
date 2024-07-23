@@ -28,9 +28,9 @@ export async function POST(request: Request) {
 
     let imageURL: string | undefined = undefined
 
-    if (image?.arrayBuffer) {
+    if (image?.arrayBuffer && typeof image.arrayBuffer === 'function') {
       // Convert the file data to a Buffer
-      const arrayBuffer = await image?.arrayBuffer()
+      const arrayBuffer = await image?.arrayBuffer?.()
 
       const buffer = new Uint8Array(arrayBuffer)
 

@@ -15,6 +15,7 @@ import contentfulLogo from '@/images/logos/contentful.png'
 import strapiLogo from '@/images/logos/strapi.png'
 import gatsbyLogo from '@/images/logos/gatsby.png'
 import jestLogo from '@/images/logos/jest.png'
+import { Section } from '@/components/Section'
 
 const stack = [
   {
@@ -104,9 +105,8 @@ const honorableMentions = [
 
 export default function MyStack() {
   return (
-    <div className="space-y-10 py-10">
-      <div className="space-y-8">
-        <h3 className="text-2xl">Tech Stack</h3>
+    <>
+      <Section title="Tech Stack">
         <ul
           role="list"
           className="grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
@@ -132,31 +132,32 @@ export default function MyStack() {
             </Card>
           ))}
         </ul>
-      </div>
+      </Section>
 
-      <h3 className="text-xl">Honorable Mentions</h3>
-      <ul
-        role="list"
-        className="grid grid-cols-2 gap-x-12 gap-y-16 lg:grid-cols-4"
-      >
-        {honorableMentions.map((item) => (
-          <Card as="li" key={item.name} className="relative h-12">
-            <Card.Link
-              href={item.link.href}
-              className="relative block h-full w-full"
-              innerClassName="h-full w-full relative block"
-            >
-              <Image
-                src={item.logo}
-                alt=""
-                className="object-contain"
-                unoptimized
-                fill
-              />
-            </Card.Link>
-          </Card>
-        ))}
-      </ul>
-    </div>
+      <Section title="Honorable Mentions">
+        <ul
+          role="list"
+          className="grid grid-cols-2 gap-x-12 gap-y-16 lg:grid-cols-4"
+        >
+          {honorableMentions.map((item) => (
+            <Card as="li" key={item.name} className="relative h-12">
+              <Card.Link
+                href={item.link.href}
+                className="relative block h-full w-full"
+                innerClassName="h-full w-full relative block"
+              >
+                <Image
+                  src={item.logo}
+                  alt=""
+                  className="object-contain"
+                  unoptimized
+                  fill
+                />
+              </Card.Link>
+            </Card>
+          ))}
+        </ul>
+      </Section>
+    </>
   )
 }

@@ -26,36 +26,43 @@ export async function POST(request: Request) {
       socialURL,
     } = body
 
-    // Convert the file data to a Buffer
-    const arrayBuffer = await image.arrayBuffer()
-    const buffer = new Uint8Array(arrayBuffer)
+    let imageURL: string | undefined = undefined
 
-    // Upload image to cloudinary
-    // Configuration
-    cloudinary.config({
-      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-      api_key: process.env.CLOUDINARY_API_KEY,
-      api_secret: process.env.CLOUDINARY_API_SECRET,
-    })
+    if (image?.arrayBuffer) {
+      // Convert the file data to a Buffer
+      const arrayBuffer = await image?.arrayBuffer()
 
-    // Upload an image
-    const uploadedImageResult = (await new Promise((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream(
-          {
-            public_id: `${firstName}-${lastName}`,
-            folder: 'portfolio/testimonials',
-          },
-          (error, result) => {
-            if (error) {
-              reject(error)
-            } else {
-              resolve(result)
-            }
-          },
-        )
-        .end(buffer)
-    })) as any
+      const buffer = new Uint8Array(arrayBuffer)
+
+      // Upload image to cloudinary
+      // Configuration
+      cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET,
+      })
+
+      // Upload an image
+      const uploadedImageResult = (await new Promise((resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream(
+            {
+              public_id: `${firstName}-${lastName}`,
+              folder: 'portfolio/testimonials',
+            },
+            (error, result) => {
+              if (error) {
+                reject(error)
+              } else {
+                resolve(result)
+              }
+            },
+          )
+          .end(buffer)
+
+        imageURL = uploadedImageResult.url
+      })) as any
+    }
 
     const dbResult = await db
       .insert(testimonials)
@@ -66,7 +73,7 @@ export async function POST(request: Request) {
         jobTitle: role,
         testimonial,
         socialURL,
-        image: uploadedImageResult.url,
+        image: imageURL,
       } as any)
       .returning()
 

@@ -19,7 +19,7 @@ export const testimonials = pgTable('testimonials', {
   company: text('company').notNull(),
   jobTitle: text('job_title').notNull(),
   testimonial: text('testimonial').notNull(),
-  socialURL: text('social_url').notNull(),
-  image: text('image').notNull(),
+  socialURL: text('social_url'),
+  image: text('image'),
   createdAt: timestamp('createdAt').defaultNow().notNull(),
 })

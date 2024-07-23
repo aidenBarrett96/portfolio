@@ -8,6 +8,13 @@ import nodeLogo from '@/images/logos/nodejs.webp'
 import tailwindLogo from '@/images/logos/tailwind.svg'
 import framerMotionLogo from '@/images/logos/framer-motion.svg'
 import vercelLogo from '@/images/logos/vercel.png'
+import sanityLogo from '@/images/logos/sanity.png'
+import gsapLogo from '@/images/logos/gsap.png'
+import dockerLogo from '@/images/logos/docker.png'
+import contentfulLogo from '@/images/logos/contentful.png'
+import strapiLogo from '@/images/logos/strapi.png'
+import gatsbyLogo from '@/images/logos/gatsby.png'
+import jestLogo from '@/images/logos/jest.png'
 
 const stack = [
   {
@@ -58,6 +65,41 @@ const honorableMentions = [
     logo: vercelLogo,
     link: { href: '#', label: 'vercel.com' },
   },
+  {
+    name: 'Sanity',
+    logo: sanityLogo,
+    link: { href: '#', label: 'sanity.io' },
+  },
+  {
+    name: 'GSAP',
+    logo: gsapLogo,
+    link: { href: '#', label: 'greensock.com/gsap' },
+  },
+  {
+    name: 'Docker',
+    logo: dockerLogo,
+    link: { href: '#', label: 'docker.com' },
+  },
+  {
+    name: 'Contentful',
+    logo: contentfulLogo,
+    link: { href: '#', label: 'contentful.com' },
+  },
+  {
+    name: 'Strapi',
+    logo: strapiLogo,
+    link: { href: '#', label: 'strapi.io' },
+  },
+  {
+    name: 'Gatsby',
+    logo: gatsbyLogo,
+    link: { href: '#', label: 'gatsbyjs.com' },
+  },
+  {
+    name: 'Jest',
+    logo: jestLogo,
+    link: { href: '#', label: 'jestjs.io' },
+  },
 ]
 
 export default function MyStack() {
@@ -92,26 +134,28 @@ export default function MyStack() {
         </ul>
       </div>
 
-      <h3>Honorable Mentions</h3>
+      <h3 className="text-xl">Honorable Mentions</h3>
       <ul
         role="list"
         className="grid grid-cols-2 gap-x-12 gap-y-16 lg:grid-cols-4"
       >
-        <Card as="li" key={honorableMentions[0].name} className="relative h-12">
-          <Card.Link
-            href={honorableMentions[0].link.href}
-            className="relative block h-full w-full"
-            innerClassName="h-full w-full relative block"
-          >
-            <Image
-              src={honorableMentions[0].logo}
-              alt=""
-              className="object-contain"
-              unoptimized
-              fill
-            />
-          </Card.Link>
-        </Card>
+        {honorableMentions.map((item) => (
+          <Card as="li" key={item.name} className="relative h-12">
+            <Card.Link
+              href={item.link.href}
+              className="relative block h-full w-full"
+              innerClassName="h-full w-full relative block"
+            >
+              <Image
+                src={item.logo}
+                alt=""
+                className="object-contain"
+                unoptimized
+                fill
+              />
+            </Card.Link>
+          </Card>
+        ))}
       </ul>
     </div>
   )

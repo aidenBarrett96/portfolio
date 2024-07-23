@@ -179,7 +179,7 @@ export default async function Testimonials() {
                       testimonial={testimonial.testimonial}
                       imageUrl={testimonial.image || ''}
                       jobTitle={testimonial.jobTitle}
-                      socialUrl={testimonial.socialURL}
+                      socialUrl={testimonial.socialURL || undefined}
                     />
                   ))}
                 </div>

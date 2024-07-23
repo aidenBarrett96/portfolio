@@ -4,6 +4,7 @@ import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import clsx from 'clsx'
+import LoadingOverlay from '@/components/LoadingOverlay'
 
 const addTestimonialFormSchema = z.object({
   'first-name': z.string().refine((val) => val.length > 0, 'Required'),
@@ -32,7 +33,7 @@ export function AddTestimonialForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful, isSubmitting },
   } = useFormContext<AddTestimonialFormValues>()
   const onSubmit = async (data: any) => {
     const formData = new FormData()
@@ -43,11 +44,22 @@ export function AddTestimonialForm() {
         formData.append(key, value)
       }
     })
-    fetch('/testimonials/add/create', {
+    await fetch('/testimonials/add/create', {
       method: 'POST',
       body: formData,
     })
   }
+
+  if (isSubmitSuccessful) {
+    return (
+      <div className="relative z-10 h-full px-6 pb-24 pt-20 sm:pb-32 lg:px-8 lg:py-48">
+        <p className="text-lg text-white">
+          Thank you for your testimonial! Check back in soon to see it live 👋{' '}
+        </p>
+      </div>
+    )
+  }
+
   return (
     <form
       action="#"
@@ -55,6 +67,17 @@ export function AddTestimonialForm() {
       method="POST"
       className="relative z-10 px-6 pb-24 pt-20 sm:pb-32 lg:px-8 lg:py-48"
     >
+      {isSubmitting && (
+        <div
+          className={clsx(
+            'absolute inset-0 z-20 flex items-center justify-center',
+            // Radial gradient bg-black/50 to transparent (center to edge (Really close to edge))
+            'bg-black/50',
+          )}
+        >
+          <LoadingOverlay color="white" />
+        </div>
+      )}
       <div className="mx-auto max-w-xl lg:mr-0 lg:max-w-lg">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>

@@ -10,7 +10,7 @@ export interface TestimonialCardProps {
   testimonial: string
   company: string
   jobTitle: string
-  socialUrl: string
+  socialUrl?: string
 }
 
 export default function TestimonialCard({

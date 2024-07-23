@@ -177,7 +177,7 @@ export default async function Testimonials() {
                       company={testimonial.company}
                       handle=""
                       testimonial={testimonial.testimonial}
-                      imageUrl={testimonial.image}
+                      imageUrl={testimonial.image || ''}
                       jobTitle={testimonial.jobTitle}
                       socialUrl={testimonial.socialURL}
                     />

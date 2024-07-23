@@ -34,7 +34,9 @@ export function AddTestimonialForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitSuccessful, isSubmitting },
+    setError,
   } = useFormContext<AddTestimonialFormValues>()
+
   const onSubmit = async (data: any) => {
     const formData = new FormData()
     Object.entries(data).forEach(([key, value]: [string, any]) => {
@@ -44,10 +46,18 @@ export function AddTestimonialForm() {
         formData.append(key, value)
       }
     })
-    await fetch('/testimonials/add/create', {
+    const result = await fetch('/testimonials/add/create', {
       method: 'POST',
       body: formData,
     })
+
+    if (!result.ok) {
+      setError('root', {
+        type: 'manual',
+        message: 'An error occurred. Please try again.',
+      })
+      throw new Error(result.statusText)
+    }
   }
 
   if (isSubmitSuccessful) {
@@ -227,6 +237,11 @@ export function AddTestimonialForm() {
             </p>
           </div>
         </div>
+
+        {errors['root'] && (
+          <p className="mt-4 text-sm text-red-400">{errors['root'].message}</p>
+        )}
+
         <div className="mt-8 flex justify-end">
           <button
             type="submit"

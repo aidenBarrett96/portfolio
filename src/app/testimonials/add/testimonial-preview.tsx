@@ -41,7 +41,6 @@ export default function TestimonialPreview() {
   return (
     <TestimonialCard
       name={name}
-      handle=""
       company={company || 'Your Company'}
       jobTitle={jobTitle || 'Your Job Title'}
       imageUrl={

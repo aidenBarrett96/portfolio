@@ -5,7 +5,6 @@ import {
 
 export interface TestimonialCardProps {
   name: string
-  handle: string
   imageUrl: string
   testimonial: string
   company: string
@@ -15,7 +14,6 @@ export interface TestimonialCardProps {
 
 export default function TestimonialCard({
   name,
-  handle,
   imageUrl,
   testimonial,
   company,
@@ -31,11 +29,23 @@ export default function TestimonialCard({
         <p>{`“${testimonial}”`}</p>
       </blockquote>
       <figcaption className="mt-6 flex items-center gap-x-4">
-        <img
-          alt=""
-          src={imageUrl}
-          className="h-10 w-10 rounded-full bg-gray-50 object-cover"
-        />
+        {imageUrl && (
+          <img
+            alt=""
+            src={imageUrl}
+            className="h-10 w-10 rounded-full bg-gray-50 object-cover"
+          />
+        )}
+
+        {!imageUrl && (
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-400">
+            {name
+              .split(' ')
+              .map((word) => word[0].toUpperCase())
+              .join('')}
+          </div>
+        )}
+
         <div>
           {!socialUrl && (
             <div className="font-semibold text-gray-700">{name}</div>

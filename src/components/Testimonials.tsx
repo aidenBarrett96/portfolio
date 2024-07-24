@@ -124,7 +124,7 @@ export default async function Testimonials() {
           <h2 className="text-lg font-semibold leading-8 tracking-tight text-zinc-800 dark:text-zinc-100">
             Testimonials
           </h2>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-zinc-700 sm:text-4xl dark:text-zinc-200">
+          <p className="mt-2 text-3xl font-bold tracking-tight text-zinc-700 dark:text-zinc-200 sm:text-4xl">
             I have worked with some amazing people, here is what they have to
             say.
           </p>
@@ -175,7 +175,6 @@ export default async function Testimonials() {
                       key={testimonial.id}
                       name={`${testimonial.firstName} ${testimonial.lastName}`}
                       company={testimonial.company}
-                      handle=""
                       testimonial={testimonial.testimonial}
                       imageUrl={testimonial.image || ''}
                       jobTitle={testimonial.jobTitle}

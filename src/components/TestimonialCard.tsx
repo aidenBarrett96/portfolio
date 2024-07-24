@@ -5,7 +5,7 @@ import {
 
 export interface TestimonialCardProps {
   name: string
-  imageUrl: string
+  imageUrl?: string
   testimonial: string
   company: string
   jobTitle: string
@@ -41,7 +41,9 @@ export default function TestimonialCard({
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-400">
             {name
               .split(' ')
-              .map((word) => word[0].toUpperCase())
+              .map((word) => word?.[0]?.toUpperCase())
+              // Only take first and last initials
+              .filter((_, idx, arr) => idx === 0 || idx === arr.length - 1)
               .join('')}
           </div>
         )}

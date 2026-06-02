@@ -401,12 +401,15 @@ function Projects() {
 /* ─── Page ─── */
 
 export function SiteView() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <div className="site">
       <div className="site-grain" aria-hidden />
 
       <header className="nav">
-        <a className="nav-mark" href="#top">
+        <a className="nav-mark" href="#top" onClick={closeMenu}>
           <span className="nav-mark-star">✦</span> Aiden&nbsp;Barrett
         </a>
         <nav className="nav-links">
@@ -418,7 +421,37 @@ export function SiteView() {
         <span className="nav-status">
           <i /> Open to work
         </span>
+        <button
+          type="button"
+          className={`nav-toggle${menuOpen ? " open" : ""}`}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((v) => !v)}
+        >
+          <span />
+          <span />
+        </button>
       </header>
+
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.nav
+            className="nav-mobile"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.24, ease }}
+          >
+            <a href="#projects" onClick={closeMenu}>Work</a>
+            <a href="#work" onClick={closeMenu}>Skills</a>
+            <a href="#approach" onClick={closeMenu}>Approach</a>
+            <a href="#contact" onClick={closeMenu}>Contact</a>
+            <span className="nav-mobile-status">
+              <i /> Open to work
+            </span>
+          </motion.nav>
+        )}
+      </AnimatePresence>
 
       <main className="wrap" id="top">
         {/* Hero */}

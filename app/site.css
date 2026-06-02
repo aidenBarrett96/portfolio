@@ -121,6 +121,81 @@
   50% { box-shadow: 0 0 0 5px rgba(30, 166, 114, 0.05); }
 }
 
+/* ───── Mobile menu toggle (hidden on desktop) ───── */
+.nav-toggle {
+  display: none;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  margin: -8px -8px -8px 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  position: absolute;
+  left: 9px;
+  right: 9px;
+  height: 1.5px;
+  background: var(--ink);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.nav-toggle span:first-child { top: 16px; }
+.nav-toggle span:last-child { bottom: 16px; }
+
+.nav-toggle.open span:first-child { transform: translateY(3px) rotate(45deg); }
+.nav-toggle.open span:last-child { transform: translateY(-3px) rotate(-45deg); }
+
+/* ───── Mobile dropdown panel ───── */
+.nav-mobile {
+  display: none;
+  position: fixed;
+  top: 58px;
+  left: 0;
+  right: 0;
+  z-index: 49;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 22px 20px;
+  background: rgba(243, 239, 228, 0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 24px 40px -28px rgba(24, 23, 18, 0.4);
+}
+
+.nav-mobile a {
+  font-family: var(--f-display);
+  font-size: 26px;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-mobile a:active { color: var(--accent); }
+
+.nav-mobile-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.nav-mobile-status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1ea672;
+  box-shadow: 0 0 0 3px rgba(30, 166, 114, 0.18);
+}
+
 /* ───── Wrap ───── */
 .wrap {
   position: relative;
@@ -1119,8 +1194,15 @@ a.bw-shot:hover img {
   .quotes {
     grid-template-columns: 1fr;
   }
-  .nav-links {
+  .nav-links,
+  .nav-status {
     display: none;
+  }
+  .nav-toggle {
+    display: inline-flex;
+  }
+  .nav-mobile {
+    display: flex;
   }
   .wrap {
     padding: 0 22px;

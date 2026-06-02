@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   TSDemo,
@@ -239,12 +239,97 @@ function Reveal({
   );
 }
 
+/* Switches layouts at the same 960px breakpoint the CSS uses. Defaults to
+   false so SSR / first client render match (desktop), then resolves on mount. */
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 960px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return isMobile;
+}
+
 /* ─── Showcase (mini code windows) ─── */
+
+function CapabilityDemo({ cap }: { cap: Capability }) {
+  const { Demo } = cap;
+  return (
+    <figure className="cw">
+      <div className="cw-bar">
+        <span className="cw-tag">{cap.file}</span>
+        <span className="cw-hint">
+          <i className="cw-pulse" /> live — have a play
+        </span>
+      </div>
+      <div className="t-root cw-screen">
+        <Demo />
+      </div>
+    </figure>
+  );
+}
 
 function Showcase() {
   const [active, setActive] = useState(0);
+  const isMobile = useIsMobile();
   const cap = capabilities[active];
-  const { Demo } = cap;
+
+  if (isMobile) {
+    return (
+      <ol className="acc" role="tablist" aria-label="Capabilities">
+        {capabilities.map((c, i) => {
+          const on = i === active;
+          return (
+            <li key={c.slug} className={`acc-item${on ? " on" : ""}`}>
+              <button
+                role="tab"
+                aria-selected={on}
+                aria-expanded={on}
+                className="acc-trigger"
+                onClick={(e) => {
+                  setActive(i);
+                  const li = e.currentTarget.closest("li");
+                  requestAnimationFrame(() =>
+                    li?.scrollIntoView({ behavior: "smooth", block: "start" })
+                  );
+                }}
+              >
+                <span className="sh-num">{String(i + 1).padStart(2, "0")}</span>
+                <span className="sh-name">{c.title}</span>
+                <span className="acc-icon" aria-hidden>
+                  {on ? "−" : "+"}
+                </span>
+              </button>
+              <AnimatePresence initial={false}>
+                {on && (
+                  <motion.div
+                    className="acc-panel"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.32, ease }}
+                  >
+                    <div className="acc-inner">
+                      <p className="acc-blurb">{c.blurb}</p>
+                      <div className="sh-tags">
+                        {c.tags.map((t) => (
+                          <span key={t}>{t}</span>
+                        ))}
+                      </div>
+                      <CapabilityDemo cap={c} />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </li>
+          );
+        })}
+      </ol>
+    );
+  }
 
   return (
     <div className="sh">
@@ -284,17 +369,7 @@ function Showcase() {
               </div>
             </div>
 
-            <figure className="cw">
-              <div className="cw-bar">
-                <span className="cw-tag">{cap.file}</span>
-                <span className="cw-hint">
-                  <i className="cw-pulse" /> live — have a play
-                </span>
-              </div>
-              <div className="t-root cw-screen">
-                <Demo />
-              </div>
-            </figure>
+            <CapabilityDemo cap={cap} />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -304,9 +379,115 @@ function Showcase() {
 
 /* ─── Recent work (interactive browser windows) ─── */
 
+function ProjectWindow({ p }: { p: Project }) {
+  return (
+    <figure className="bw">
+      <div className="bw-bar">
+        <span className="cw-dots">
+          <i /> <i /> <i />
+        </span>
+        <span className="bw-url">
+          <span className="bw-lock">{p.url ? "🔒" : "▦"}</span>
+          {p.domain}
+        </span>
+        {p.url ? (
+          <a
+            className="bw-visit"
+            href={p.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Visit ↗
+          </a>
+        ) : (
+          <span className="bw-visit disabled">Case study</span>
+        )}
+      </div>
+
+      {p.url ? (
+        <a
+          className="bw-shot"
+          href={p.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Open ${p.name}`}
+        >
+          <img src={p.image} alt={`${p.name} homepage`} loading="lazy" />
+        </a>
+      ) : (
+        <div className="bw-shot">
+          <img src={p.image} alt={`${p.name} homepage`} loading="lazy" />
+        </div>
+      )}
+    </figure>
+  );
+}
+
 function Projects() {
   const [active, setActive] = useState(0);
+  const isMobile = useIsMobile();
   const p = projects[active];
+
+  if (isMobile) {
+    return (
+      <ol className="acc" role="tablist" aria-label="Recent projects">
+        {projects.map((proj, i) => {
+          const on = i === active;
+          return (
+            <li
+              key={proj.slug}
+              className={`acc-item${on ? " on" : ""}`}
+              style={{ "--pa": proj.accent } as React.CSSProperties}
+            >
+              <button
+                role="tab"
+                aria-selected={on}
+                aria-expanded={on}
+                className="acc-trigger"
+                onClick={(e) => {
+                  setActive(i);
+                  const li = e.currentTarget.closest("li");
+                  requestAnimationFrame(() =>
+                    li?.scrollIntoView({ behavior: "smooth", block: "start" })
+                  );
+                }}
+              >
+                <span className="pj-num">{String(i + 1).padStart(2, "0")}</span>
+                <span className="pj-info">
+                  <span className="pj-name">{proj.name}</span>
+                  <span className="pj-sector">{proj.sector}</span>
+                </span>
+                <span className="acc-icon" aria-hidden>
+                  {on ? "−" : "+"}
+                </span>
+              </button>
+              <AnimatePresence initial={false}>
+                {on && (
+                  <motion.div
+                    className="acc-panel"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.32, ease }}
+                  >
+                    <div className="acc-inner">
+                      <p className="acc-blurb">{proj.blurb}</p>
+                      <div className="pj-tags">
+                        {proj.tags.map((t) => (
+                          <span key={t}>{t}</span>
+                        ))}
+                      </div>
+                      <ProjectWindow p={proj} />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </li>
+          );
+        })}
+      </ol>
+    );
+  }
 
   return (
     <div className="pj">
@@ -352,45 +533,7 @@ function Projects() {
               </div>
             </div>
 
-            <figure className="bw">
-              <div className="bw-bar">
-                <span className="cw-dots">
-                  <i /> <i /> <i />
-                </span>
-                <span className="bw-url">
-                  <span className="bw-lock">{p.url ? "🔒" : "▦"}</span>
-                  {p.url ? p.domain : p.domain}
-                </span>
-                {p.url ? (
-                  <a
-                    className="bw-visit"
-                    href={p.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Visit ↗
-                  </a>
-                ) : (
-                  <span className="bw-visit disabled">Case study</span>
-                )}
-              </div>
-
-              {p.url ? (
-                <a
-                  className="bw-shot"
-                  href={p.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Open ${p.name}`}
-                >
-                  <img src={p.image} alt={`${p.name} homepage`} loading="lazy" />
-                </a>
-              ) : (
-                <div className="bw-shot">
-                  <img src={p.image} alt={`${p.name} homepage`} loading="lazy" />
-                </div>
-              )}
-            </figure>
+            <ProjectWindow p={p} />
           </motion.div>
         </AnimatePresence>
       </div>

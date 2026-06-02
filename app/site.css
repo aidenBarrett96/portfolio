@@ -617,6 +617,82 @@
   min-height: 308px;
 }
 
+/* ───── Accordion (mobile: demo opens inline under the tapped tab) ───── */
+.acc {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.acc-item {
+  border-bottom: 1px solid var(--line);
+  /* clear the sticky nav when the tapped item scrolls into view */
+  scroll-margin-top: 66px;
+}
+
+.acc-trigger {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+  padding: 18px 4px;
+  color: var(--ink-soft);
+  transition: color 0.2s ease;
+}
+
+.acc-item.on .acc-trigger {
+  color: var(--ink);
+}
+
+.acc-item.on .sh-name,
+.acc-item.on .pj-name {
+  font-weight: 700;
+}
+
+.acc-item.on .sh-num,
+.acc-item.on .pj-num {
+  color: var(--pa, var(--accent));
+}
+
+.acc-icon {
+  font-family: var(--f-mono);
+  font-size: 18px;
+  line-height: 1;
+  color: var(--ink-muted);
+  width: 14px;
+  text-align: center;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.acc-item.on .acc-icon {
+  color: var(--pa, var(--accent));
+}
+
+.acc-panel {
+  overflow: hidden;
+}
+
+.acc-inner {
+  padding: 2px 2px 26px;
+}
+
+.acc-blurb {
+  font-family: var(--f-body);
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0 0 16px;
+}
+
+.acc-inner .cw,
+.acc-inner .bw {
+  margin-top: 18px;
+}
+
 /* ───── Recent work ───── */
 .pj {
   display: grid;

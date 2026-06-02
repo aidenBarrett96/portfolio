@@ -1,0 +1,43 @@
+:root {
+  --f-display: var(--font-display), "Georgia", "Times New Roman", serif;
+  --f-body: var(--font-body), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: var(--font-mono), ui-monospace, "SF Mono", monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  background: #f3efe4;
+  color: #181712;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+}

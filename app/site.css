@@ -1162,6 +1162,18 @@ a.bw-shot:hover img {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 16%, transparent);
 }
 
+.cf input[aria-invalid="true"],
+.cf textarea[aria-invalid="true"] {
+  border-color: #d2553f;
+  background: rgba(210, 85, 63, 0.04);
+}
+
+.cf input[aria-invalid="true"]:focus,
+.cf textarea[aria-invalid="true"]:focus {
+  border-color: #d2553f;
+  box-shadow: 0 0 0 3px rgba(210, 85, 63, 0.16);
+}
+
 /* honeypot — kept out of sight & out of the tab order */
 .cf-hp {
   position: absolute;

@@ -23,7 +23,9 @@ body {
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  /* clip (not hidden) prevents horizontal scroll without creating a scroll
+     container, which would otherwise break the sticky nav */
+  overflow-x: clip;
   background: #f3efe4;
   color: #181712;
 }

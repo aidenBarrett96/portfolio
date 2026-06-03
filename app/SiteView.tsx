@@ -303,27 +303,24 @@ function Showcase() {
                   {on ? "−" : "+"}
                 </span>
               </button>
-              <AnimatePresence initial={false}>
-                {on && (
-                  <motion.div
-                    className="acc-panel"
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.32, ease }}
-                  >
-                    <div className="acc-inner">
-                      <p className="acc-blurb">{c.blurb}</p>
-                      <div className="sh-tags">
-                        {c.tags.map((t) => (
-                          <span key={t}>{t}</span>
-                        ))}
-                      </div>
-                      <CapabilityDemo cap={c} />
+              {on && (
+                <motion.div
+                  className="acc-panel"
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.28, ease }}
+                >
+                  <div className="acc-inner">
+                    <p className="acc-blurb">{c.blurb}</p>
+                    <div className="sh-tags">
+                      {c.tags.map((t) => (
+                        <span key={t}>{t}</span>
+                      ))}
                     </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    <CapabilityDemo cap={c} />
+                  </div>
+                </motion.div>
+              )}
             </li>
           );
         })}
@@ -461,27 +458,24 @@ function Projects() {
                   {on ? "−" : "+"}
                 </span>
               </button>
-              <AnimatePresence initial={false}>
-                {on && (
-                  <motion.div
-                    className="acc-panel"
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.32, ease }}
-                  >
-                    <div className="acc-inner">
-                      <p className="acc-blurb">{proj.blurb}</p>
-                      <div className="pj-tags">
-                        {proj.tags.map((t) => (
-                          <span key={t}>{t}</span>
-                        ))}
-                      </div>
-                      <ProjectWindow p={proj} />
+              {on && (
+                <motion.div
+                  className="acc-panel"
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.28, ease }}
+                >
+                  <div className="acc-inner">
+                    <p className="acc-blurb">{proj.blurb}</p>
+                    <div className="pj-tags">
+                      {proj.tags.map((t) => (
+                        <span key={t}>{t}</span>
+                      ))}
                     </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    <ProjectWindow p={proj} />
+                  </div>
+                </motion.div>
+              )}
             </li>
           );
         })}
@@ -546,6 +540,14 @@ function Projects() {
 export function SiteView() {
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
+
+  // Don't let the browser restore scroll into the (re-rendered) accordion on
+  // reload — start at the top instead of snapping to whichever skill is open.
+  useEffect(() => {
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+  }, []);
 
   return (
     <div className="site">

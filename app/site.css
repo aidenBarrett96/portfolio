@@ -377,6 +377,12 @@
   border-bottom: 1px solid var(--line);
 }
 
+/* clear the sticky nav when jumping to a section via an anchor link */
+.section,
+.foot {
+  scroll-margin-top: 64px;
+}
+
 .section-head {
   margin-bottom: 54px;
   max-width: 760px;
@@ -670,10 +676,6 @@
 
 .acc-item.on .acc-icon {
   color: var(--pa, var(--accent));
-}
-
-.acc-panel {
-  overflow: hidden;
 }
 
 .acc-inner {
